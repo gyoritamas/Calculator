@@ -128,7 +128,7 @@ namespace Calculator
             this.flowLayoutPanel2.Controls.Add(this.buttonDecimal);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(328, 74);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(97, 203);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(97, 187);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // buttonDecimal
@@ -160,7 +160,7 @@ namespace Calculator
             this.flowLayoutPanel1.Controls.Add(this.buttonCalculate);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 74);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(312, 203);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(312, 187);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // button1
@@ -321,7 +321,7 @@ namespace Calculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 300);
+            this.ClientSize = new System.Drawing.Size(437, 273);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.textBoxResult);
