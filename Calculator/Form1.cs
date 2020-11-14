@@ -59,6 +59,7 @@ namespace Calculator
         //TODO: handle input from keys, not just mouse (Keypress event)
         private string AppendOperator(string operation)
         {
+            textBoxResult.Text = textBoxResult.Text.TrimEnd(',');
             return textBoxResult.Text += " " + operation + " ";
         }
 
@@ -116,7 +117,20 @@ namespace Calculator
             }
         }
 
-        //TODO: negative numbers
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            textBoxResult.Text = "0";
+        }
 
+        private void buttonDecimal_Click(object sender, EventArgs e)
+        {
+            if (!textBoxResult.Text.EndsWith(" ") && !textBoxResult.Text.EndsWith("-"))
+            {
+                //this is the first number or the screen ends with a number not containing ","
+                if (!textBoxResult.Text.Contains(" ") || textBoxResult.Text.LastIndexOf(" ") > textBoxResult.Text.LastIndexOf(","))
+                    AppendNumber(",");
+            }
+
+        }
     }
 }

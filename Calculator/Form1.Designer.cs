@@ -49,6 +49,8 @@ namespace Calculator
             this.button2 = new System.Windows.Forms.Button();
             this.buttonNegate = new System.Windows.Forms.Button();
             this.buttonCalculate = new System.Windows.Forms.Button();
+            this.buttonDel = new System.Windows.Forms.Button();
+            this.buttonDecimal = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -121,7 +123,7 @@ namespace Calculator
             this.flowLayoutPanel2.Controls.Add(this.buttonMinus);
             this.flowLayoutPanel2.Controls.Add(this.buttonMultiplication);
             this.flowLayoutPanel2.Controls.Add(this.buttonDivision);
-            this.flowLayoutPanel2.Controls.Add(this.buttonCalculate);
+            this.flowLayoutPanel2.Controls.Add(this.buttonDecimal);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(328, 74);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(97, 203);
@@ -141,6 +143,8 @@ namespace Calculator
             this.flowLayoutPanel1.Controls.Add(this.buttonClear);
             this.flowLayoutPanel1.Controls.Add(this.button0);
             this.flowLayoutPanel1.Controls.Add(this.buttonNegate);
+            this.flowLayoutPanel1.Controls.Add(this.buttonDel);
+            this.flowLayoutPanel1.Controls.Add(this.buttonCalculate);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(13, 74);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(312, 203);
@@ -281,12 +285,34 @@ namespace Calculator
             // buttonCalculate
             // 
             this.buttonCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonCalculate.Location = new System.Drawing.Point(3, 147);
+            this.buttonCalculate.Location = new System.Drawing.Point(99, 147);
             this.buttonCalculate.Name = "buttonCalculate";
-            this.buttonCalculate.Size = new System.Drawing.Size(90, 30);
+            this.buttonCalculate.Size = new System.Drawing.Size(186, 30);
             this.buttonCalculate.TabIndex = 1;
             this.buttonCalculate.Text = "=";
             this.buttonCalculate.UseVisualStyleBackColor = true;
+            // 
+            // buttonDel
+            // 
+            this.buttonDel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonDel.Location = new System.Drawing.Point(3, 147);
+            this.buttonDel.Name = "buttonDel";
+            this.buttonDel.Size = new System.Drawing.Size(90, 30);
+            this.buttonDel.TabIndex = 2;
+            this.buttonDel.Text = "CE";
+            this.buttonDel.UseVisualStyleBackColor = true;
+            this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
+            // 
+            // buttonDecimal
+            // 
+            this.buttonDecimal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.buttonDecimal.Location = new System.Drawing.Point(3, 147);
+            this.buttonDecimal.Name = "buttonDecimal";
+            this.buttonDecimal.Size = new System.Drawing.Size(90, 30);
+            this.buttonDecimal.TabIndex = 1;
+            this.buttonDecimal.Text = ",";
+            this.buttonDecimal.UseVisualStyleBackColor = true;
+            this.buttonDecimal.Click += new System.EventHandler(this.buttonDecimal_Click);
             // 
             // Calculator
             // 
@@ -328,6 +354,8 @@ namespace Calculator
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonCalculate;
         private System.Windows.Forms.Button buttonNegate;
+        private System.Windows.Forms.Button buttonDecimal;
+        private System.Windows.Forms.Button buttonDel;
     }
 }
 
