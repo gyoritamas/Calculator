@@ -14,14 +14,25 @@ namespace Calculator
     {
         public Calculator()
         {
-            InitializeComponent();
-
+            InitializeComponent();            
         }
-
+                
         private string Screen
         {
             get => textBoxResult.Text;
             set => textBoxResult.Text = value;
+        }
+        private void Append(string button)
+        {
+            if (char.IsDigit(button[0]) || button.Equals(","))
+            {
+                Screen += button;
+            }
+            else
+            {
+                Screen = Screen.TrimEnd(',');
+                Screen += " " + button + " ";
+            }
         }
         private void RemoveLastChars(int numberOfChars)
         {
@@ -35,11 +46,88 @@ namespace Calculator
 
         bool resultOnScreen = false;
         double lastResult = 0;
+
+        // button Click events
         private void buttonNumber_Click(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
             string button = clickedButton.Text;
 
+            Number(button);
+        }
+
+        private void buttonOperator_Click(object sender, EventArgs e)
+        {
+            Button clickedButton = sender as Button;
+            string button = clickedButton.Text;
+
+            Operator(button);
+        }
+        
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+
+        private void buttonNegate_Click(object sender, EventArgs e)
+        {
+            Negate();
+        }
+
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            Delete();
+        }
+
+        private void buttonDecimal_Click(object sender, EventArgs e)
+        {
+            Decimal();
+        }
+
+        private void buttonCalculate_Click(object sender, EventArgs e)
+        {
+            Calculate();
+        }
+
+        // Keypress events
+        private void Calculator_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char key = e.KeyChar;
+            
+            if (char.IsDigit(key))
+            {
+                Number(key.ToString());
+            }
+
+            if ("+-*/".Contains(key.ToString()))
+            {
+                Operator(key.ToString());
+            }
+
+            if (key.ToString().Equals(","))
+            {
+                Decimal();
+            }
+            
+            if(key == (char)Keys.Back)
+            {
+                Clear();
+            }
+
+            if(key== (char)Keys.Return)
+            {
+                Calculate();
+            }
+            
+            if (key == (char)Keys.Escape)
+            {
+                Application.Exit();
+            }
+            
+        }
+
+        private void Number(string button)
+        {
             // the very first input is number:
             // overwrite 0 the program starts with
             // also reset the result of the previous calculation
@@ -55,12 +143,8 @@ namespace Calculator
                 RemoveLastChars(1);
             Append(button);
         }
-
-        private void buttonOperator_Click(object sender, EventArgs e)
+        private void Operator(string button)
         {
-            Button clickedButton = sender as Button;
-            string button = clickedButton.Text;
-
             if (resultOnScreen)
             {
                 Screen = lastResult.ToString();
@@ -72,33 +156,34 @@ namespace Calculator
                 RemoveLastChars(3);
 
             Append(button);
-            
         }
-        
-        //TODO: handle input from keys, not just mouse (Keypress event)
 
-        private void Append(string button)
-        {
-            if (char.IsDigit(button[0]) || button.Equals(","))
-            {
-                Screen += button;
-            } else
-            {
-                Screen = Screen.TrimEnd(',');
-                Screen += " " + button + " ";
-            }
-        }
-        
-        private void buttonClear_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Append "," after digits, if last number does not contain one
+        /// Append "0," instead after operators
+        /// </summary>
+        private void Decimal()
         {
             if (resultOnScreen) return;
-            // if only a one digit number left (positive or negative) set the screen to 0
+            if (char.IsDigit(LastChar()) && Screen.LastIndexOf(" ") >= Screen.LastIndexOf(","))
+                Append(",");
+            if (Screen.EndsWith(" "))
+                Append("0,");
+        }
+
+        /// <summary>
+        /// Clear the last character
+        /// If only a one digit number left on the screen (positive or negative), set the screen to 0
+        /// Ignore whitespace while deleting
+        /// Does not work when result of last calculation is appearent (protection)
+        /// </summary>
+        private void Clear()
+        {
+            if (resultOnScreen) return;
             if (Screen.Length == 1 || (Screen.Length == 2 && Screen.StartsWith("-")))
             {
                 Screen = "0";
             }
-            // if more than one digit left, remvove the last one
-            // ignore whitespace
             if (Screen.Length > 1)
             {
                 if (Screen.EndsWith(" "))
@@ -110,7 +195,12 @@ namespace Calculator
             }
         }
 
-        private void buttonNegate_Click(object sender, EventArgs e)
+        private void Delete()
+        {
+            Screen = "0";
+        }
+
+        private void Negate()
         {
             if (resultOnScreen)
             {
@@ -124,9 +214,9 @@ namespace Calculator
                 string restOfScreen = "";
                 if (Screen.Contains(" "))
                 {
-                    int cutHere = Screen.LastIndexOf(" ");
-                    lastNumber = Screen.Substring(cutHere + 1);
-                    restOfScreen = Screen.Substring(0, cutHere + 1);
+                    int cutHere = Screen.LastIndexOf(" ") + 1;
+                    lastNumber = Screen.Substring(cutHere);
+                    restOfScreen = Screen.Substring(0, cutHere);
                 }
 
                 if (lastNumber.StartsWith("-"))
@@ -141,19 +231,7 @@ namespace Calculator
             }
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
-        {
-            Screen = "0";
-        }
-
-        private void buttonDecimal_Click(object sender, EventArgs e)
-        {
-            if (resultOnScreen) return;
-            if (char.IsDigit(LastChar()) && Screen.LastIndexOf(" ") >= Screen.LastIndexOf(","))
-                Append(",");
-        }
-
-        private void buttonCalculate_Click(object sender, EventArgs e)
+        private void Calculate()
         {
             if (resultOnScreen) return;
             Screen = Screen.Trim(',');
