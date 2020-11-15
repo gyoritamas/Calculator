@@ -349,6 +349,7 @@ namespace Calculator
             this.Name = "Calculator";
             this.Text = "Calculator";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Calculator_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Calculator_KeyUp);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
