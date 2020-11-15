@@ -15,6 +15,12 @@ namespace Calculator
         public Calculator()
         {
             InitializeComponent();
+
+        }
+
+        public string Screen {
+            get => textBoxResult.Text;
+            set => textBoxResult.Text = value;
         }
 
         bool calculationDone = false;
@@ -27,16 +33,16 @@ namespace Calculator
             // the very first input is number:
             // overwrite 0 the program starts with
             // also reset the result of the previous calculation
-            if (textBoxResult.Text == "0" || calculationDone)
+            if (Screen == "0" || calculationDone)
             {
-                textBoxResult.Text = "";
+                Screen = "";
                 calculationDone = false;
             }
-            
+
             // don't let the user write numbers starting with 0
             // unless they follow up with ","                
-            if (textBoxResult.Text.EndsWith(" 0"))
-                textBoxResult.Text = textBoxResult.Text.Substring(0, textBoxResult.Text.Length - 1);
+            if (Screen.EndsWith(" 0"))
+                Screen = Screen.Substring(0, Screen.Length - 1);
             AppendNumber(button);
         }
 
@@ -47,12 +53,12 @@ namespace Calculator
 
             if (calculationDone)
             {
-                textBoxResult.Text = lastResult.ToString();
+                Screen = lastResult.ToString();
                 calculationDone = false;
             }
 
             // last input also was an operator
-            if (textBoxResult.Text.EndsWith(" "))
+            if (Screen.EndsWith(" "))
                 OverwriteLastOperator(button);
             // last input was a number
             else
@@ -62,38 +68,38 @@ namespace Calculator
         private string OverwriteLastOperator(string operation)
         {
             //clear last operator and whitespace
-            textBoxResult.Text = textBoxResult.Text.Substring(0, textBoxResult.Text.Length - 3);
+            Screen = Screen.Substring(0, Screen.Length - 3);
             return AppendOperator(operation);
         }
         //TODO: handle input from keys, not just mouse (Keypress event)
         private string AppendOperator(string operation)
         {
-            textBoxResult.Text = textBoxResult.Text.TrimEnd(',');
-            return textBoxResult.Text += " " + operation + " ";
+            Screen = Screen.TrimEnd(',');
+            return Screen += " " + operation + " ";
         }
 
         private string AppendNumber(string number)
         {
-            return textBoxResult.Text += number;
+            return Screen += number;
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
             if (calculationDone) return;
             // if only a one digit number left (positive or negative) set the screen to 0
-            if (textBoxResult.TextLength == 1 || (textBoxResult.TextLength == 2 && textBoxResult.Text.StartsWith("-")))
+            if (Screen.Length == 1 || (Screen.Length == 2 && Screen.StartsWith("-")))
             {
-                textBoxResult.Text = "0";
+                Screen = "0";
             }
             // if more than one digit left, remvove the last one
             // ignore whitespace
-            if (textBoxResult.TextLength > 1)
+            if (Screen.Length > 1)
             {
-                if (textBoxResult.Text.EndsWith(" "))
-                    textBoxResult.Text = textBoxResult.Text.Substring(0, textBoxResult.Text.Length - 3);
+                if (Screen.EndsWith(" "))
+                    Screen = Screen.Substring(0, Screen.Length - 3);
                 else
                 {
-                    textBoxResult.Text = textBoxResult.Text.Substring(0, textBoxResult.Text.Length - 1);
+                    Screen = Screen.Substring(0, Screen.Length - 1);
                 }
             }
         }
@@ -102,19 +108,19 @@ namespace Calculator
         {
             if (calculationDone)
             {
-                textBoxResult.Text = lastResult.ToString();
+                Screen = lastResult.ToString();
                 calculationDone = false;
             }
-            
-            if (textBoxResult.Text != "0" && !textBoxResult.Text.EndsWith(" "))
+
+            if (Screen != "0" && !Screen.EndsWith(" "))
             {
-                string lastNumber = textBoxResult.Text;
+                string lastNumber = Screen;
                 string restOfScreen = "";
-                if (textBoxResult.Text.Contains(" "))
+                if (Screen.Contains(" "))
                 {
-                    int cutHere = textBoxResult.Text.LastIndexOf(" ");
-                    lastNumber = textBoxResult.Text.Substring(cutHere + 1);
-                    restOfScreen = textBoxResult.Text.Substring(0, cutHere + 1);
+                    int cutHere = Screen.LastIndexOf(" ");
+                    lastNumber = Screen.Substring(cutHere + 1);
+                    restOfScreen = Screen.Substring(0, cutHere + 1);
                 }
 
                 if (lastNumber.StartsWith("-"))
@@ -125,22 +131,22 @@ namespace Calculator
                 {
                     lastNumber = "-" + lastNumber;
                 }
-                textBoxResult.Text = restOfScreen + lastNumber;
+                Screen = restOfScreen + lastNumber;
             }
         }
 
         private void buttonDel_Click(object sender, EventArgs e)
         {
-            textBoxResult.Text = "0";
+            Screen = "0";
         }
 
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
             if (calculationDone) return;
-            if (!textBoxResult.Text.EndsWith(" ") && !textBoxResult.Text.EndsWith("-"))
+            if (!Screen.EndsWith(" ") && !Screen.EndsWith("-"))
             {
                 //this is the first number or the screen ends with a number not containing ","
-                if (!textBoxResult.Text.Contains(" ") || textBoxResult.Text.LastIndexOf(" ") > textBoxResult.Text.LastIndexOf(","))
+                if (!Screen.Contains(" ") || Screen.LastIndexOf(" ") > Screen.LastIndexOf(","))
                     AppendNumber(",");
             }
 
@@ -149,7 +155,7 @@ namespace Calculator
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             if (calculationDone) return;
-            string[] calcString = textBoxResult.Text.Split(' ');
+            string[] calcString = Screen.Split(' ');
             double tempResult = 0;
             double nextDouble = 0;
             for (int i = 0; i < calcString.Length;)
@@ -188,10 +194,10 @@ namespace Calculator
 
             calculationDone = true;
             lastResult = tempResult;
-            textBoxResult.Text += Environment.NewLine + tempResult;
+            Screen += Environment.NewLine + tempResult;
         }
 
         //TODO: after calculate, at next click clean everything and put result in the first line
-
+        //TODO: if lastresult was NaN, set lastresult to 0 before calculating with it
     }
 }
